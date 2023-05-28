@@ -17,6 +17,8 @@ The Starter Project Template is designed to help you quickly get started with yo
 - **SWR**: A lightweight React Hooks library for remote data fetching, caching, and synchronization.
 - **Yup**: A JavaScript object schema validation library to ensure data integrity and validate user inputs.
 
+## Visual
+![visualization](./diagram.svg)
 ## Usage
 
 1. Clone or download the Starter Project Template repository.
