@@ -10,7 +10,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider"
 import { SiteHeader } from "@/components/layout/site-header"
 import { TailwindIndicator } from "@/components/layout/tailwind-indicator"
 import { Toaster } from "@/components/ui/toaster"
-
+export const dynamic = 'force-dynamic'
 export const metadata = {
   metadataBase: new URL(`${process.env.NEXT_URL}/api/og`),
   title: {

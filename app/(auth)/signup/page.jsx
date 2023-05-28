@@ -1,3 +1,4 @@
+import Link from "next/link"
 import AuthButtons from "../_components/AuthButtons"
 import SignUpForm from "../_components/signup-form"
 
@@ -15,6 +16,7 @@ const page = () => {
           <p>Sign In With</p>
         </span>
         <AuthButtons />
+        <p>Already have an account?<span> <Link href={"/signin"} >Sign In</Link> </span></p>
       </div>
       <div className=" hidden gap-y-10 text-2xl h-full md:flex items-center flex-col justify-center gradient">
         <svg
