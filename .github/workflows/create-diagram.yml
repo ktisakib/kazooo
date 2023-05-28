@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@master
-      - name: Update diagram
-        uses: githubocto/repo-visualizer@main
-        with:
+      - name: Repo Visualizer
+        uses: githubocto/repo-visualizer@0.9.1
+      with:
           excluded_paths: "ignore,.github,.vscode"
