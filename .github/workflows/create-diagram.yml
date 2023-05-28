@@ -12,5 +12,5 @@ jobs:
         uses: actions/checkout@master
       - name: Repo Visualizer
         uses: githubocto/repo-visualizer@0.9.1
-      with:
+        with:
           excluded_paths: "ignore,.github,.vscode"
