@@ -1,0 +1,13 @@
+{
+    "editor.inlineSuggest.suppressSuggestions": true,
+    "editor.suggest.preview": true,
+    "editor.suggest.shareSuggestSelections": true,
+    "editor.quickSuggestions": {
+        "comments": "off",
+        "strings": "on"
+    },
+    "files.autoSave": "afterDelay",
+    "editor.autoClosingDelete": "always",
+    "files.autoSaveDelay": 1,
+    "path-intellisense.autoSlashAfterDirectory": false
+}
