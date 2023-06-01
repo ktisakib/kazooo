@@ -1,16 +1,13 @@
 "use client"
 
 import Link from "next/link"
-
-import { useForm } from "react-hook-form"
-
 import { yupResolver } from "@hookform/resolvers/yup"
+import { useForm } from "react-hook-form"
+import * as yup from "yup"
+
+import { notificationsFormSchema } from "@/lib/validations"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Switch } from "@/components/ui/switch"
-import { toast } from "@/components/ui/use-toast"
-import * as yup from "yup"
 import {
   Form,
   FormControl,
@@ -19,27 +16,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/form/form"
-
-
-
+} from "@/components/ui/form"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Switch } from "@/components/ui/switch"
+import { toast } from "@/components/ui/use-toast"
 
 // This can come from your database or API.
-const notificationsFormSchema = yup.object({
- 
-  mobile: yup.boolean().default(false).optional(),
-  communication_emails: yup.boolean().default(false).optional(),
-  social_emails: yup.boolean().default(false).optional(),
-  marketing_emails: yup.boolean().default(false).optional(),
-  security_emails: yup.boolean(),
-})
-const defaultValues = {
-  communication_emails: false,
-  marketing_emails: false,
-  social_emails: true,
-  security_emails: true,
-}
+
 export function NotificationsForm() {
+  const defaultValues = {
+    communication_emails: false,
+    marketing_emails: false,
+    social_emails: true,
+    security_emails: true,
+  }
   const form = useForm({
     resolver: yupResolver(notificationsFormSchema),
     defaultValues,

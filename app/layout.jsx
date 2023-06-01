@@ -1,16 +1,18 @@
 import "server-only"
+import { Analytics } from '@vercel/analytics/react';
 import "@/styles/globals.css"
 import { siteConfig } from "@/config/site"
 import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
+import { Toaster } from "@/components/ui/toaster"
+import { SiteHeader } from "@/components/layout/site-header"
+import { TailwindIndicator } from "@/components/layout/tailwind-indicator"
 import SupabaseAuthProvider from "@/components/providers/supabase/supabase-auth-provider.js"
 import SupabaseProvider from "@/components/providers/supabase/supabase-provider.js"
 import { createClient } from "@/components/providers/supabase/supabase-server.js"
 import { ThemeProvider } from "@/components/providers/theme-provider"
-import { SiteHeader } from "@/components/layout/site-header"
-import { TailwindIndicator } from "@/components/layout/tailwind-indicator"
-import { Toaster } from "@/components/ui/toaster"
-export const dynamic = 'force-dynamic'
+
+export const dynamic = "force-dynamic"
 export const metadata = {
   metadataBase: new URL(`${process.env.NEXT_URL}/api/og`),
   title: {
@@ -55,21 +57,18 @@ export const metadata = {
   ],
   openGraph: {
     images: [
-      `${
-        process.env.NEXT_URL ? "https://" + process.env.NEXT_URL : ""
-      }/api/og`,
+      `${process.env.NEXT_URL ? "https://" + process.env.NEXT_URL : ""}/api/og`,
     ],
   },
   authors: [
     {
-      name: "Enyel",
-      url: "enyelsequeira.com",
+      name: "ktisakib",
+      url: "github.com/ktisakib",
     },
   ],
- 
 }
 
-export default async function RootLayout({ children }) {
+export default async function RootLayout({ children, auth }) {
   const supabase = createClient()
   const {
     data: { session },
@@ -77,7 +76,7 @@ export default async function RootLayout({ children }) {
   return (
     <>
       <html lang="en">
-        <body className={cn(" font-sans antialiased", fontSans.variable)} >
+        <body className={cn(" font-sans antialiased", fontSans.variable)}>
           <SupabaseProvider>
             <SupabaseAuthProvider serverSession={session}>
               <ThemeProvider
@@ -86,9 +85,13 @@ export default async function RootLayout({ children }) {
                 enableSystem
               >
                 <SiteHeader />
-                <main className="relative" >{children}</main>
+                <main className="relative mx-auto">
+                  {children}
+                  {auth}
+                </main>
                 <TailwindIndicator />
-                <Toaster/>
+                <Toaster />
+                <Analytics/>
               </ThemeProvider>
             </SupabaseAuthProvider>
           </SupabaseProvider>

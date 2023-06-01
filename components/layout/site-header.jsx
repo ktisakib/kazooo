@@ -7,7 +7,7 @@ import { MainNav } from "@/components/layout/main-nav"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 export function SiteHeader() {
   return (
-    <header className="fixed top-0 z-40 w-full border-b bg-background">
+    <header className="fixed top-0 z-40 w-full border-b bg-background/50 backdrop-blur-md dark:bg-background/50">
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
         <MainNav  />
         <div className="flex flex-1 items-center justify-end space-x-4">

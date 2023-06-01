@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator"
 import { createClient } from "@/components/providers/supabase/supabase-server"
 
-import { ProfileForm } from "./_components/profile-form"
+import { ProfileForm } from "../_components/profile-form"
 
 const getUserProfile = async () => {
   const supabase = createClient()
@@ -14,9 +14,8 @@ const getUserProfile = async () => {
     return profile
   }
 }
-export default async function SettingsProfilePage() {
-  const profile = await getUserProfile()
-  console.log(profile)
+const page = async () => {
+    const profile = await getUserProfile()
   return (
     <div className="space-y-6">
       <div>
@@ -30,3 +29,5 @@ export default async function SettingsProfilePage() {
     </div>
   )
 }
+
+export default page

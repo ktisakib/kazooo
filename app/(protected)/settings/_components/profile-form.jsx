@@ -3,10 +3,19 @@
 import Link from "next/link"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useFieldArray, useForm } from "react-hook-form"
-import * as yup from "yup"
 
 import { cn } from "@/lib/utils.js"
+import { profileFormSchema } from "@/lib/validations"
 import { Button } from "@/components/ui/button"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form.jsx"
 import { Input } from "@/components/ui/input"
 import {
   Select,
@@ -17,50 +26,20 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/components/ui/use-toast"
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/form/form.jsx"
-
-const profileFormSchema = yup.object({
-  username: yup
-    .string()
-    .min(2, {
-      message: "Username must be at least 2 characters.",
-    })
-    .max(30, {
-      message: "Username must not be longer than 30 characters.",
-    }),
-  email: yup
-    .string({
-      required_error: "Please select an email to display.",
-    })
-    .email(),
-  bio: yup.string().max(160).min(4),
-  urls: yup
-    .array(
-      yup.object({
-        value: yup.string().url({ message: "Please enter a valid URL." }),
-      })
-    )
-    .optional(),
-})
 
 // This can come from your database or API.
-const defaultValues = {
-  bio: "I own a computer.",
-  urls: [
-    { value: "http://github.com/ktisakib" },
-    { value: "http://twitter.com/ktisakib" },
-  ],
-}
 
-export function ProfileForm() {
+export function ProfileForm({ profile }) {
+  const defaultValues = {
+    username: profile.username,
+    bio: "I own a computer.",
+    urls: [
+      { value: "http://github.com/ktisakib" },
+      { value: "http://twitter.com/ktisakib" },
+    ],
+  }
+
+  console.log(profile)
   const form = useForm({
     resolver: yupResolver(profileFormSchema),
     defaultValues,

@@ -13,24 +13,28 @@ const SignInForm = () => {
   const [isLoading, setIsLoading] = useState(false)
   const emailRef = useRef()
   const passwordRef = useRef()
+
   const { signInWithEmailPassword } = useAuth()
   async function handleSubmit(event) {
     event.preventDefault()
     setIsLoading(true)
+    
     try {
+      if(!emailRef.current.value){
+        throw new Error("Please enter valid email address")
+      }
       await signInWithEmailPassword({
         email: emailRef.current.value,
         password: passwordRef.current.value,
       })
       setIsLoading(false)
-      toast({
-        title: "Success "
-      })
+     
 
       
     } catch (err) {
+      console.error(err)
       toast({
-        title: "Success "
+        title: err.message
       })
       setIsLoading(false)
 

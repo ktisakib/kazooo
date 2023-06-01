@@ -17,7 +17,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/form/form"
+} from "@/components/ui/form"
 
 const appearanceFormSchema = yup.object({
   theme: yup

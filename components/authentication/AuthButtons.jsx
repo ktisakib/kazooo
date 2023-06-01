@@ -1,6 +1,6 @@
 "use client"
 import {Icons} from "@/components/ui/icons"
-import { useAuth } from "/components/providers/supabase/supabase-auth-provider.js";
+import { useAuth } from "@/components/providers/supabase/supabase-auth-provider.js";
 const AuthButtons = () => {
   const { signInWithGithub,signInWithFacebook,signInWithTwitter } = useAuth();
   return (

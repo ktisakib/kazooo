@@ -14,12 +14,7 @@ const Scene = () => {
   const mountRef = useRef(null);
 
   useEffect(() => {
-    /**
-     * Base
-     */
-    // Debug
-    // const gui = new dat.GUI();
-
+  
     // Canvas
     const canvas = document.querySelector("canvas.webgl");
 

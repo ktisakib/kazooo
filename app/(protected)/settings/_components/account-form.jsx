@@ -34,7 +34,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/form/form"
+} from "@/components/ui/form"
+import { accountFormSchema } from "@/lib/validations"
 
 const languages = [
   { label: "English", value: "en" },
@@ -49,29 +50,13 @@ const languages = [
 ] 
 
 
-const accountFormSchema = yup.object({
-  name: yup
-    .string()
-    .min(2, {
-      message: "Name must be at least 2 characters.",
-    })
-    .max(30, {
-      message: "Name must not be longer than 30 characters.",
-    }),
-  dob: yup.date({
-    required_error: "A date of birth is required.",
-  }),
-  language: yup.string({
-    required_error: "Please select a language.",
-  }),
-})
-// This can come from your database or API.
-const defaultValues = {
-  // name: "Your name",
-  // dob: new Date("2023-01-23"),
-}
+
 
 export function AccountForm() {
+  const defaultValues = {
+  name: "Your name",
+  dob: new Date("2023-01-23"),
+}
   const form = useForm({
     resolver: yupResolver(accountFormSchema),
     defaultValues,

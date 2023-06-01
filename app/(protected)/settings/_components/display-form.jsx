@@ -1,11 +1,11 @@
 "use client"
 
+import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
-import { yupResolver } from "@hookform/resolvers/yup"
+
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { toast } from "@/components/ui/use-toast"
 import {
   Form,
   FormControl,
@@ -14,7 +14,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/form/form"
+} from "@/components/ui/form"
+import { toast } from "@/components/ui/use-toast"
+import { displayFormSchema } from "@/lib/validations"
 
 const items = [
   {
@@ -41,25 +43,15 @@ const items = [
     id: "documents",
     label: "Documents",
   },
-] 
-
-
-
+]
 
 // This can come from your database or API.
-const defaultValues = {
-  items: ["recents", "home"],
-}
 
-const displayFormSchema = yup.object({
-  items: yup
-    .array()
-    .of(yup.string())
-    .test("atLeastOneItem", "You have to select at least one item.", (value) => {
-      return value && value.length > 0;
-    }),
-});
 export function DisplayForm() {
+  const defaultValues = {
+    items: ["recents", "home"],
+  }
+
   const form = useForm({
     resolver: yupResolver(displayFormSchema),
     defaultValues,
