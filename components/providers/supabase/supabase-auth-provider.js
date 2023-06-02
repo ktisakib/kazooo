@@ -45,7 +45,7 @@ export default function SupabaseAuthProvider({ serverSession, children }) {
         data: {
           username: username,
         },
-        emailRedirectTo: `${location.origin}/auth/callback`,
+        emailRedirectTo: `${process.env.NEXT_URL}/api/auth/callback`,
       },
     })
     if (error) {
@@ -84,7 +84,7 @@ export default function SupabaseAuthProvider({ serverSession, children }) {
         title:"Something went wrong"
       })
     }else{
-      router.push("/signin")
+      router.refresh()
       toast({
       title: "Signed Out",
     })}
@@ -96,12 +96,7 @@ export default function SupabaseAuthProvider({ serverSession, children }) {
     await supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo:
-          process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
-            ? "https://kazooo.vercel.app/dashboard"
-            : process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
-            ? "https://kazooo.vercel.app/dashboard"
-            : "http://localhost:3000/dashboard",
+        redirectTo: `${process.env.NEXT_URL}/api/auth/callback`,
       },
     })
   }
