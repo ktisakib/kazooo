@@ -45,7 +45,7 @@ export default function SupabaseAuthProvider({ serverSession, children }) {
         data: {
           username: username,
         },
-        emailRedirectTo: `${process.env.NEXT_URL}/api/auth/callback`,
+        emailRedirectTo: `${location.origin}/auth/callback`,
       },
     })
     if (error) {
