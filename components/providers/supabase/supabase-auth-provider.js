@@ -96,7 +96,7 @@ export default function SupabaseAuthProvider({ serverSession, children }) {
     await supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo: `${process.env.NEXT_URL}/api/auth/callback`,
+        redirectTo: `${process.env.NEXT_URL}/dashboard`,
       },
     })
   }
