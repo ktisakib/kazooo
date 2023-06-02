@@ -63,12 +63,10 @@
     "swr": "^2.1.5",
     "tailwind-merge": "^1.12.0",
     "tailwindcss-animate": "^1.0.5",
-    "three": "^0.152.2",
     "yup": "^1.2.0"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^3.7.1",
-    "@types/react": "18.2.7",
     "autoprefixer": "^10.4.13",
     "eslint": "^8.31.0",
     "eslint-config-next": "13.0.0",
