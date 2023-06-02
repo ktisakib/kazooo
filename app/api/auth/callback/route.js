@@ -9,10 +9,11 @@ export async function GET(request) {
   if (code) {
     const supabase = createRouteHandlerClient({ cookies })
     await supabase.auth.exchangeCodeForSession(code)
+    requestUrl.searchParams = null
     requestUrl.pathname = '/dashboard'
-    requestUrl.searchParams.delete('code')
+    
   }
 
   // URL to redirect to after sign in process completes
-  return NextResponse.redirect(`${process.env.NEXT_URL}/dashboard`)
+  return NextResponse.redirect(requestUrl.pathname)
 }
