@@ -4,7 +4,7 @@
   "private": false,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "fix": "next lint --fix",
@@ -13,8 +13,6 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.1.0",
-    "@prisma/client": "^4.15.0",
-    "@prisma/extension-accelerate": "^0.1.1",
     "@radix-ui/react-accordion": "^1.1.1",
     "@radix-ui/react-alert-dialog": "^1.0.3",
     "@radix-ui/react-aspect-ratio": "^1.0.2",
