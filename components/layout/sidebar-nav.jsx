@@ -3,13 +3,15 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
+import { handleSignOut } from "@/lib/actions"
 import { cn } from "@/lib/utils"
 
+import { useAuth } from "/components/providers/supabase/supabase-auth-provider.js"
 import { buttonVariants } from "/components/ui/button"
-import {useAuth} from "/components/providers/supabase/supabase-auth-provider.js"
+
 export function SidebarNav({ className, items, ...props }) {
   const pathname = usePathname()
-  const {user,signOut} =useAuth()
+  const { user, signOut } = useAuth()
 
   return (
     <nav
@@ -34,10 +36,17 @@ export function SidebarNav({ className, items, ...props }) {
           {item.title}
         </Link>
       ))}
-      <button
-      onClick={()=> signOut()}
-       type="button"
-       className={cn(buttonVariants({ variant: "ghost" }), " justify-start")}> Logout</button>
+      <form action={handleSignOut}>
+        <button
+          type="submit"
+          
+          // onClick={()=> signOut()}
+          className={cn(buttonVariants({ variant: "ghost" }), " justify-start")}
+        >
+          {" "}
+          Logout
+        </button>
+      </form>
     </nav>
   )
 }

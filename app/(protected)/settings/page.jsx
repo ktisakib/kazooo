@@ -10,7 +10,7 @@ const getUserProfile = async () => {
   if (error) {
     return null
   } else {
-    const profile =session.user.user_metadata
+    const profile =session?.user.user_metadata
     return profile
   }
 }

@@ -1,61 +1,44 @@
-"use client"
-
-import { useRef, useState } from "react"
-
-import { Icons } from "@/components/ui/icons"
-import { useAuth } from "@/components/providers/supabase/supabase-auth-provider"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
+import { revalidatePath } from "next/cache"
 import { Button } from "@/components/ui/button"
-import { toast } from "@/components/ui/use-toast"
+import { Icons } from "@/components/ui/icons"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
-const SignInForm = () => {
-  const [isLoading, setIsLoading] = useState(false)
-  const emailRef = useRef()
-  const passwordRef = useRef()
+import { signIn } from "@/lib/actions"
 
-  const { signInWithEmailPassword } = useAuth()
-  async function handleSubmit(event) {
-    event.preventDefault()
-    setIsLoading(true)
-    
+const SignInForm = async () => {
+  const handleSubmit = async (formData) => {
+    "use server"
     try {
-      if(!emailRef.current.value){
-        throw new Error("Please enter valid email address")
+      const email = formData.get("email")
+      const password = formData.get("password")  
+      const data  = await signIn({
+        email,
+        password,
+      })
+      if (data) {
+        console.log("user:",data)
+         revalidatePath("/signin")
       }
-      await signInWithEmailPassword({
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-      })
-      setIsLoading(false)
-     
-
-      
+    
     } catch (err) {
-      console.error(err)
-      toast({
-        title: err.message
-      })
-      setIsLoading(false)
-
+      console.log(err)
     }
   }
   return (
-    <form className="max-w-xs w-full" onSubmit={handleSubmit}>
+    <form className="max-w-xs w-full" action={handleSubmit}>
       <div className="grid gap-2">
         <div className="grid gap-1">
           <Label className="sr-only" htmlFor="email">
             Email
           </Label>
           <Input
-            ref={emailRef}
-            id="email"
+            name="email"
             placeholder="kazoo@example.com"
             type="email"
             autoCapitalize="none"
             autoComplete="email"
             autoCorrect="off"
-            disabled={isLoading}
           />
         </div>
         <div className="grid gap-1">
@@ -63,20 +46,15 @@ const SignInForm = () => {
             Password
           </Label>
           <Input
-            ref={passwordRef}
-            id="password"
+            name="password"
             placeholder="your password"
             type="password"
             autoCapitalize="none"
             autoComplete="email"
             autoCorrect="off"
-            disabled={isLoading}
           />
         </div>
-        <Button type="submit" disabled={isLoading}>
-          {isLoading && <Icons.loader className="mr-2 h-4 w-4 animate-spin" />}
-          Sign In with Email & Password
-        </Button>
+        <Button type="submit">Sign In with Email & Password</Button>
       </div>
     </form>
   )

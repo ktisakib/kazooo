@@ -31,7 +31,7 @@ import { toast } from "@/components/ui/use-toast"
 
 export function ProfileForm({ profile }) {
   const defaultValues = {
-    username: profile.username,
+    username: profile?.username,
     bio: "I own a computer.",
     urls: [
       { value: "http://github.com/ktisakib" },

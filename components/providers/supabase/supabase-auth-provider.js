@@ -2,11 +2,12 @@
 
 import { createContext, useContext, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import useSWR from "swr"
 
 import { toast } from "@/components/ui/use-toast"
 
-import { useSupabase } from "./supabase-provider"
+const supabase = createClientComponentClient()
 
 const Context = createContext({
   user: null,
@@ -33,7 +34,6 @@ export default function SupabaseAuthProvider({ serverSession, children }) {
     throw new Error("NEXT_PUBLIC_AUTH_REDIRECT_URL must be set in .env")
   }
 
-  const { supabase } = useSupabase()
   const router = useRouter()
 
   //  Sign Up
@@ -81,14 +81,14 @@ export default function SupabaseAuthProvider({ serverSession, children }) {
     const { error } = await supabase.auth.signOut()
     if (error) {
       toast({
-        title:"Something went wrong"
+        title: "Something went wrong",
       })
-    }else{
+    } else {
       router.refresh()
       toast({
-      title: "Signed Out",
-    })}
-    
+        title: "Signed Out",
+      })
+    }
   }
 
   // Sign-In with Github
@@ -96,7 +96,7 @@ export default function SupabaseAuthProvider({ serverSession, children }) {
     await supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo: `${process.env.NEXT_URL}/dashboard`,
+        redirectTo: `${process.env.NEXT_URL}/api/auth/callback`,
       },
     })
   }
@@ -106,12 +106,7 @@ export default function SupabaseAuthProvider({ serverSession, children }) {
     await supabase.auth.signInWithOAuth({
       provider: "facebook",
       options: {
-        redirectTo:
-          process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
-            ? "https://kazooo.vercel.app/dashboard"
-            : process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
-            ? "https://kazooo.vercel.app/dashboard"
-            : "http://localhost:3000/dashboard",
+         redirectTo: `${process.env.NEXT_URL}/api/auth/callback`,
       },
     })
   }
@@ -121,12 +116,7 @@ export default function SupabaseAuthProvider({ serverSession, children }) {
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo:
-          process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
-            ? "https://kazooo.vercel.app/dashboard"
-            : process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
-            ? "https://kazooo.vercel.app/dashboard"
-            : "http://localhost:3000/dashboard",
+         redirectTo: `${process.env.NEXT_URL}/api/auth/callback`,
       },
     })
   }
@@ -136,12 +126,7 @@ export default function SupabaseAuthProvider({ serverSession, children }) {
     await supabase.auth.signInWithOAuth({
       provider: "twitter",
       options: {
-        redirectTo:
-          process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
-            ? "https://kazooo.vercel.app/dashboard"
-            : process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
-            ? "https://kazooo.vercel.app/dashboard"
-            : "http://localhost:3000/dashboard",
+         redirectTo: `${process.env.NEXT_URL}/api/auth/callback`,
       },
     })
   }
@@ -153,9 +138,9 @@ export default function SupabaseAuthProvider({ serverSession, children }) {
     })
     if (error) {
       toast({
-        title: "Error signing in"
+        title: "Error signing in",
       })
-    }else{
+    } else {
       toast({
         title: "Signed In Successfully",
       })
@@ -179,14 +164,14 @@ export default function SupabaseAuthProvider({ serverSession, children }) {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_, session) => {
       if (session?.access_token !== serverSession?.access_token) {
-        router.refresh()
+        router.push("/dashboard")
       }
     })
 
     return () => {
       subscription.unsubscribe()
     }
-  }, [router, supabase, serverSession?.access_token])
+  }, [router, serverSession?.access_token])
 
   const exposed = {
     user,

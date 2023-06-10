@@ -1,16 +1,15 @@
+
 import { NextResponse } from "next/server"
 import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs"
 
 export async function middleware(req) {
   const res = NextResponse.next()
   const pathname = req.nextUrl.pathname
-
   const supabase = createMiddlewareClient({ req, res })
-
   const {
-    data: { session },
+    data: { session },error
   } = await supabase.auth.getSession()
-// console.log(session.user)
+  // console.log(session)
   if (
     !session &&
     (pathname.startsWith("/dashboard") || pathname.startsWith("/settings"))
@@ -19,7 +18,6 @@ export async function middleware(req) {
     url.pathname = "/signin"
     return NextResponse.redirect(url)
   }
-
   if (
     session &&
     (pathname === "/signin" ||
@@ -30,6 +28,5 @@ export async function middleware(req) {
     url.pathname = "/dashboard"
     return NextResponse.redirect(url)
   }
-
   return res
 }

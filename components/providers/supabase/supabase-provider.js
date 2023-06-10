@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 const Context = createContext(undefined);
 
 export default function SupabaseProvider({ children }) {
-  const [supabase] = useState(() => createClientComponentClient());
+  const supabase =  createClientComponentClient();
   const router = useRouter();
 
   useEffect(() => {
