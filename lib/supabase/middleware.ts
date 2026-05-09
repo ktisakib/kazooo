@@ -14,7 +14,7 @@ export async function updateSession(request: NextRequest) {
                 getAll() {
                     return request.cookies.getAll()
                 },
-                setAll(cookiesToSet: { name: string; value: string; options?: Record<string, unknown> }[]) {
+                setAll(cookiesToSet, headers) {
                     cookiesToSet.forEach(({ name, value }) =>
                         request.cookies.set(name, value)
                     )
@@ -24,15 +24,21 @@ export async function updateSession(request: NextRequest) {
                     cookiesToSet.forEach(({ name, value, options }) =>
                         supabaseResponse.cookies.set(name, value, options)
                     )
+                    Object.entries(headers).forEach(([key, value]) =>
+                        supabaseResponse.headers.set(key, value)
+                    )
                 },
             },
         }
     )
 
-    // Refresh session if expired - required for Server Components
-    const {
-        data: { user },
-    } = await supabase.auth.getUser()
+    // Do not run code between createServerClient and
+    // supabase.auth.getClaims(). A simple mistake could make it very hard to debug
+    // issues with users being randomly logged out.
+
+    // IMPORTANT: DO NOT REMOVE auth.getClaims()
+    const { data } = await supabase.auth.getClaims()
+    const user = data?.claims
 
     // Redirect unauthenticated users away from protected routes
     if (
